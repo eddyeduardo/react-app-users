@@ -12,7 +12,7 @@ export const register = async (req, res) => {
 
     if (userFound)
       return res.status(400).json({
-        message: ["The email is already in use"],
+        message: ["The email is already in use."],
       });
 
     // hashing the password

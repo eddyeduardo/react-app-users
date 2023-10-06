@@ -1,40 +1,37 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navbar } from "./components/Navbar";
+import { AuthProvider } from "./context/authContext";
+import { ProtectedRoute } from "./routes";
+
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/RegisterPage";
+import { TaskFormPage } from "./pages/TaskFormPage";
+import { LoginPage } from "./pages/LoginPage";
+import { TasksPage } from "./pages/TasksPage";
+import { TaskProvider } from "./context/tasksContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={<h1 className="text-4xl font-bold">Home page</h1>}
-        />
-        <Route
-          path="/login"
-          element={<h1 className="text-4xl font-bold">Login page</h1>}
-        />
-        <Route
-          path="/register"
-          element={<h1 className="text-4xl font-bold">Register page</h1>}
-        />
-        <Route
-          path="/task"
-          element={<h1 className="text-4xl font-bold">Task page</h1>}
-        />
-        <Route
-          path="/add-task"
-          element={<h1 className="text-4xl font-bold">New task page</h1>}
-        />
-        <Route
-          path="/task/:id"
-          element={<h1 className="text-4xl font-bold">Update task page</h1>}
-        />
-        <Route
-          path="/profile"
-          element={<h1 className="text-4xl font-bold">Profile page</h1>}
-        />
-
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <TaskProvider>
+        <BrowserRouter>
+          <main className="container content-container mx-auto px-10 md:px-0">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/tasks" element={<TasksPage />} />
+                <Route path="/add-task" element={<TaskFormPage />} />
+                <Route path="/tasks/:id" element={<TaskFormPage />} />
+                <Route path="/profile" element={<h1>Profile</h1>} />
+              </Route>
+            </Routes>
+          </main>
+        </BrowserRouter>
+      </TaskProvider>
+    </AuthProvider>
   );
 }
 
